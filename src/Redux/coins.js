@@ -460,7 +460,7 @@ export const coinReducer = createSlice({
       return state.watchlist;
     },
     setCommissionFeeRedux(state, action) {
-      state.commissionFee = action.payload;
+      // state.commissionFee = action.payload;
     },
   },
   extraReducers: {
@@ -753,8 +753,8 @@ export const coinReducer = createSlice({
     [getCommissionFee.fulfilled]: (state, action) => {
       state.isloading = false;
 
-      state.commissionFee = action.payload.commission;
-      console.log("action.payload from commission", action.payload);
+      // state.commissionFee = action.payload.commission;
+      // console.log("action.payload from commission", action.payload);
     },
     [getCommissionFee.pending]: (state, action) => {
       state.isloading = true;

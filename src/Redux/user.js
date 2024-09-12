@@ -188,15 +188,15 @@ export const userLogin = createAsyncThunk("userLogin", async (formData) => {
 export const getUserWallet = createAsyncThunk(
   "getUserWallet",
   async (userId) => {
-    try {
-      const res = await axiosInstance.get(`/api/wallet/${userId}`);
-      if (res.status === 200) {
-        // console.log(res.data, "wallet data");
-        return res.data;
-      }
-    } catch (err) {
-      console.log(err);
-    }
+    // try {
+    //   const res = await axiosInstance.get(`/api/wallet/${userId}`);
+    //   if (res.status === 200) {
+    //     // console.log(res.data, "wallet data");
+    //     return res.data;
+    //   }
+    // } catch (err) {
+    //   console.log(err);
+    // }
   }
 );
 
@@ -512,8 +512,8 @@ export const userReducer = createSlice({
 
     [getUserWallet.fulfilled]: (state, action) => {
       state.isloading = false;
-      state.getUserWallet = action.payload?.balance || 0;
-      console.log("balance", action.payload.balance);
+      // state.getUserWallet = action.payload?.balance || 0;
+      // console.log("balance", action.payload.balance);
     },
     [getUserWallet.pending]: (state, action) => {
       state.isloading = true;

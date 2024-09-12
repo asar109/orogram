@@ -55,15 +55,15 @@ const UserManagment = () => {
     }
   };
 
-  useEffect(() => {
-    socket.on("newNotification", (data) => {
-      console.log("messagefrom server", data);
-      dispatch(getNotifcation()).then((res) => {
-        console.log("notification", notification);
-        console.log("res", res);
-      });
-    });
-  }, []);
+  // useEffect(() => {
+  //   socket.on("newNotification", (data) => {
+  //     console.log("messagefrom server", data);
+  //     dispatch(getNotifcation()).then((res) => {
+  //       console.log("notification", notification);
+  //       console.log("res", res);
+  //     });
+  //   });
+  // }, []);
   const formattedDate = (item) => {
     if (!item) return;
     dayjs.extend(utc);

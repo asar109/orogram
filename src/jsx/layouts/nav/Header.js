@@ -59,28 +59,28 @@ const Header = ({ onNote }) => {
     setCoinMarketData(coinReducer.coinData);
   }, [coinReducer.coinData]);
 
-  useEffect(() => {
-    window.addEventListener("scroll", () => {
-      setheaderFix(window.scrollY > 50);
-    });
-    setCoinMarketData(coinReducer.coinData);
-    dispatch(getNotifcation(userReducer.currentUser.is_admin));
-  }, []);
+  // useEffect(() => {
+  //   window.addEventListener("scroll", () => {
+  //     setheaderFix(window.scrollY > 50);
+  //   });
+  //   setCoinMarketData(coinReducer.coinData);
+  //   (getNotifcationdispatch(userReducer.currentUser.is_admin));
+  // }, []);
 
-  useEffect(() => {
-    socket.on("newNotification", (data) => {
-      console.log("messagefrom server", data);
-      dispatch(getNotifcation(userReducer.currentUser.is_admin));
-    });
-  }, []);
+  // useEffect(() => {
+  //   socket.on("newNotification", (data) => {
+  //     console.log("messagefrom server", data);
+  //     dispatch(getNotifcation(userReducer.currentUser.is_admin));
+  //   });
+  // }, []);
 
-  useEffect(() => {
-    setNotifications(notification);
-  }, [notification]);
+  // useEffect(() => {
+  //   setNotifications(notification);
+  // }, [notification]);
 
-  useEffect(() => {
-    setNotifications(notification);
-  }, [notification]);
+  // useEffect(() => {
+  //   setNotifications(notification);
+  // }, [notification]);
   //const [searchBut, setSearchBut] = useState(false);
   var path = window.location.pathname.split("/");
   var name = path[path.length - 1].split("-");
@@ -123,8 +123,8 @@ const Header = ({ onNote }) => {
       take_profit: takeProfit,
     };
     console.log("body of trade", body);
-    const res = dispatch(createTrade(body));
-    console.log("res of trade", res);
+    // const res = dispatch(createTrade(body));
+    // console.log("res of trade", res);
     setLargeModal(false);
   };
   const handleClick = (price) => {
@@ -139,20 +139,20 @@ const Header = ({ onNote }) => {
     }
   };
   const viewSpecificNotification = async (id) => {
-    const res = await dispatch(
-      seenSpecificNotification({ id, user_id: userReducer.currentUser.id })
-    );
-    console.log("res==", res);
-    if (res.payload.status === 200) {
-    }
+    // const res = await dispatch(
+    //   seenSpecificNotification({ id, user_id: userReducer.currentUser.id })
+    // );
+    // console.log("res==", res);
+    // if (res.payload.status === 200) {
+    // }
   };
   const hideSpecificNotificationAction = async (id) => {
-    const res = await dispatch(
-      hideSpecificNotification({ id, user_id: userReducer.currentUser.id })
-    );
-    console.log("res==", res);
-    if (res.payload.status === 200) {
-    }
+    // const res = await dispatch(
+    //   hideSpecificNotification({ id, user_id: userReducer.currentUser.id })
+    // );
+    // console.log("res==", res);
+    // if (res.payload.status === 200) {
+    // }
   };
 
   const viewAll = async (id) => {
@@ -164,17 +164,17 @@ const Header = ({ onNote }) => {
     }
   };
   const callApi = async () => {
-    let previoustoken = cookies.get("previoustoken");
-    if (previoustoken) {
-      const user = jwt_decode(previoustoken);
-      const res = await dispatch(switchAccount(user));
-      console.log("response===", res, user);
-      if (res.payload) {
-        cookies.set("token", res.payload.access);
-        cookies.remove("previoustoken");
-        window.location.replace("admin-dashboard");
-      }
-    }
+    // let previoustoken = cookies.get("previoustoken");
+    // if (previoustoken) {
+    //   const user = jwt_decode(previoustoken);
+    //   const res = await dispatch(switchAccount(user));
+    //   console.log("response===", res, user);
+    //   if (res.payload) {
+    //     cookies.set("token", res.payload.access);
+    //     cookies.remove("previoustoken");
+    //     window.location.replace("admin-dashboard");
+    //   }
+    // }
   };
   useEffect(() => {
     document.addEventListener("mousedown", handleClickOutside);

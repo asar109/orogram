@@ -42,7 +42,7 @@ const cookies = new Cookies();
 function App(props) {
   const dispatch = useDispatch();
   const userReducer = useSelector((store) => store.userReducer);
-  const coinReducer = useSelector((store) => store.coinReducer);
+  // const coinReducer = useSelector((store) => store.coinReducer);
   const navigate = useNavigate();
   useEffect(() => {
     const handleContextmenu = e => {
@@ -56,14 +56,18 @@ function App(props) {
   useEffect(() => {
     const token = cookies.get("token");
     if (token) {
-      const user = jwt_decode(token);
-      if (user.exp < Date.now() / 1000) {
-        console.log("Token has expired");
-        navigate("/login");
-        cookies.remove("token");
-      }
+      // const user = jwt_decode(token);
+      // if (user.exp < Date.now() / 1000) {
+      //   console.log("Token has expired");
+      //   navigate("/login");
+      //   cookies.remove("token");
+      // }
       axiosInstance
-        .get(`/api/user/${user?.id}`)
+        .get(`/users/profile`, {
+          headers: {
+            Authorization: `Bearer ${token}`,
+          },
+        })
         .then((res) => {
           console.log(res?.data, "res?.data");
           dispatch(setCurrentUser(res?.data));

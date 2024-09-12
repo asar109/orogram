@@ -1,14 +1,11 @@
-import axios from "axios";
 import React, { useEffect, useState } from "react";
 import { Spinner } from "react-bootstrap";
 import ReCAPTCHA from "react-google-recaptcha";
 import { useDispatch, useSelector } from "react-redux";
 import { Link, NavLink, useNavigate, useSearchParams } from "react-router-dom";
-import { ToastContainer } from "react-toastify";
 import Cookies from "universal-cookie";
 import logoPrime from "../../images/logo/logo-prime.png";
-import { setCurrentUser, userLogin, verifyEmail } from "../../Redux/user";
-import axiosInstance from "../../services/AxiosInstance";
+import { userLogin } from "../../Redux/user";
 
 function Login(props) {
   const cookies = new Cookies();
@@ -50,19 +47,14 @@ function Login(props) {
       remember,
     };
     const res = await dispatch(userLogin(data));
+    console.log("🚀 ~ onLogin ~ res:", res);
 
     if (res.payload?.token) {
-      axios.defaults.headers[
-        "Authorization"
-      ] = `Bearer ${res?.payload?.token?.accessToken}`;
-      axiosInstance.defaults.headers[
-        "Authorization"
-      ] = `Bearer ${res?.payload?.token?.accessToken}`;
       const token = res?.payload?.token?.accessToken;
-      console.log("🚀 ~ onLogin ~ token:", token);
+      cookies.set("userId", res?.payload?.user?._id);
       cookies.set("token", token);
-      dispatch(setCurrentUser(res?.payload?.user));
-      if (user?.role === "admin") {
+      // dispatch(setCurrentUser(res?.payload?.user));
+      if (res?.payload?.user?.role === "admin") {
         navigate("/admin-dashboard");
       } else {
         navigate("/dashboard");
@@ -92,15 +84,10 @@ function Login(props) {
     const res = await dispatch(userLogin(data));
 
     if (res.payload?.token) {
-      axios.defaults.headers[
-        "Authorization"
-      ] = `Bearer ${res?.payload?.token?.accessToken}`;
-      axiosInstance.defaults.headers[
-        "Authorization"
-      ] = `Bearer ${res?.payload?.token?.accessToken}`;
       const token = res?.payload?.token?.accessToken;
+      cookies.set("userId", res?.payload?.user?._id);
       cookies.set("token", token);
-      dispatch(setCurrentUser(res?.payload?.user));
+      // dispatch(setCurrentUser(res?.payload?.user));
       if (user?.role === "admin") {
         navigate("/admin-dashboard");
       } else {
@@ -147,7 +134,6 @@ function Login(props) {
 
   return (
     <>
-      <ToastContainer />
       {dispplay && (
         <div className="page-wraper">
           <div className="browse-job login-style3 bglogin">
@@ -185,7 +171,7 @@ function Login(props) {
                             <Link to={"#"} className="logo logombl">
                               <img
                                 style={{
-                                  width : "150px"
+                                  width: "150px",
                                 }}
                                 loading="lazy"
                                 src={logoPrime}

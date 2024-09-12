@@ -18,25 +18,25 @@ import cryptoicons from "../../../images/cryptoIcons/cryptoImg";
 import { CoinCharts } from "./CoinCharts";
 const Home = () => {
   const dispatch = useDispatch();
-  const requestCoin = useSelector((store) => store.coinReducer);
+  // const requestCoin = useSelector((store) => store.coinReducer);
   const cookies = new Cookies();
   const token = cookies.get("token");
   const user = jwt_decode(token);
   console.log("🚀 ~ Home ~ user:", user)
   const id = user.id;
-  const requests = useSelector((state) => state.userReducer);
-  const [topcoins, setTopCoins] = useState(requestCoin?.coinData);
+  // const requests = useSelector((state) => state.userReducer);
+  // const [topcoins, setTopCoins] = useState(requestCoin?.coinData);
 
-  useEffect(() => {
-    dispatch(getUserWallet(id));
-    setTopCoins(requestCoin?.coinData);
-    settopcoinsShow(requestCoin?.coinData.slice(0, 3));
-    console.log(topcoins, "topcoins");
-  }, [requestCoin?.coinData, requestCoin?.totalProfitLoss]);
+  // useEffect(() => {
+  //   dispatch(getUserWallet(id));
+  //   setTopCoins(requestCoin?.coinData);
+  //   settopcoinsShow(requestCoin?.coinData.slice(0, 3));
+  //   console.log(topcoins, "topcoins");
+  // }, [requestCoin?.coinData, requestCoin?.totalProfitLoss]);
 
-  const [topcoinsShow, settopcoinsShow] = useState(
-    requestCoin?.coinData.slice(0, 3)
-  );
+  // const [topcoinsShow, settopcoinsShow] = useState(
+  //   requestCoin?.coinData.slice(0, 3)
+  // );
 
   const GetColor = (value) => {
     if (value > 0) {
@@ -51,22 +51,22 @@ const Home = () => {
     return invest + wallet + profitLoss;
   };
 
-  useEffect(() => {
-    let count = 3;
-    const intervalId = setInterval(() => {
-      if (count === topcoins.length - 1) {
-        count = 3;
-      } else if (topcoinsShow.length > 0) {
-        settopcoinsShow((topcoinsShow) => [
-          ...topcoinsShow.slice(1),
-          topcoins[count],
-        ]);
-        count++;
-      }
-    }, 4000);
+  // useEffect(() => {
+  //   let count = 3;
+  //   const intervalId = setInterval(() => {
+  //     if (count === topcoins.length - 1) {
+  //       count = 3;
+  //     } else if (topcoinsShow.length > 0) {
+  //       settopcoinsShow((topcoinsShow) => [
+  //         ...topcoinsShow.slice(1),
+  //         topcoins[count],
+  //       ]);
+  //       count++;
+  //     }
+  //   }, 4000);
 
-    return () => clearInterval(intervalId);
-  }, []);
+  //   return () => clearInterval(intervalId);
+  // }, []);
 
   const tableData = [
     {
@@ -107,24 +107,21 @@ const Home = () => {
                     <div style={{ width: "100%" }}>
                       <h2>Welcome Back!</h2>
                       <h2>
-                        <p style={{ textTransform: "capitalize" }}>{requests?.currentUser?.user_name}</p>
+                        <p style={{ textTransform: "capitalize" }}>{"Name"}</p>
                       </h2>
 
                       <h4>
                         <p>Portfolio Value</p>
                       </h4>
 
+                      
 
 
                       <h2 className="fs-7">
                         <CurrencyFormat
                           style={{ color: "black !important" }}
                           value={
-                            getTotals(
-                              requests.totalProfitLoss,
-                              requests.totalInvestment,
-                              requests?.getUserWallet
-                            ) || 0
+                            40
                           }
                           displayType={"text"}
                           decimalScale={2}
@@ -148,7 +145,7 @@ const Home = () => {
                             >
                               <CurrencyFormat
                                 style={{ color: "black !important" }}
-                                value={requests.getUserWallet}
+                                value={40}
                                 displayType={"text"}
                                 decimalScale={2}
                                 thousandSeparator={true}
@@ -172,7 +169,7 @@ const Home = () => {
                             >
                               <CurrencyFormat
                                 style={{ color: "black !important" }}
-                                value={requests.totalInvestment}
+                                value={40}
                                 displayType={"text"}
                                 decimalScale={2}
                                 thousandSeparator={true}
@@ -193,15 +190,14 @@ const Home = () => {
                             <h4
                               className="pricecard"
                               style={{
-                                color: GetColor(requests.totalProfitLoss),
+                                color: "#ddd",
                                 fontSize: "25px",
                               }}
                             >
                               <CurrencyFormat
                                 style={{ color: "black !important" }}
                                 value={
-                                  Math.round(requests.totalProfitLoss * 100) /
-                                  100 || 0
+                                  40
                                 }
                                 displayType={"text"}
                                 decimalScale={2}
@@ -224,57 +220,7 @@ const Home = () => {
             </div>
           </div>
           <div className="row">
-            {topcoinsShow.map((item, ind) => (
-              <div className="col-xl-4 col-lg-4 col-sm-12" key={ind}>
-                <div className={`card border-4 card-box ${item.bgcolor}`}>
-                  <div className="card-header border-0 pb-0">
-                    <div className="chart-num-days  ">
-                      {item.percent_change_30d < 0 ? (
-                        <p className="" style={{ color: "red" }}>
-                          <i className="fa fa-arrow-down me-2 "></i>
-                          {item.percent_change_30d.toFixed(2)}
-                          %(30 Days)
-                        </p>
-                      ) : (
-                        <p style={{ color: "green" }}>
-                          <i className="fa fa-arrow-up me-2 "></i>
-                          {item.percent_change_30d.toFixed(2)}
-                          %(30 Days)
-                        </p>
-                      )}
-
-                      <h2 className="count-num text-black  ">
-                        <CurrencyFormat
-                          style={{ color: "black !important" }}
-                          value={item?.price}
-                          displayType={"text"}
-                          decimalScale={2}
-                          thousandSeparator={true}
-                          prefix={"$"}
-                          fixedDecimalScale={true}
-                          renderText={(value) => <p>{value}</p>}
-                        />
-                        {item.name}
-                      </h2>
-                    </div>
-                    <span className="badge badge-soft-success font-size-12">
-                      <img loading="lazy" src={cryptoicons[item?.symbol]} width="50px" />
-                    </span>
-                  </div>
-                  <div className="card-body p-0 custome-tooltip">
-                    {/* <div id="widgetChart3" className="chart-primary"></div> */}
-
-                    <WidgetChartIndex3
-                      name={item.symbol}
-                      price={item.price}
-                      data={[{symbol:item.symbol,
-                      price:[item.percent_change_1h,item.percent_change_7d,item.percent_change_30d],
-                    }]}
-                    />
-                  </div>
-                </div>
-              </div>
-            ))}
+         
           </div>
           {/* <Row>
             <Col xl="8">
@@ -306,3 +252,71 @@ const Home = () => {
   );
 };
 export default Home;
+
+
+
+
+  //  {
+  //    topcoinsShow.map((item, ind) => (
+  //      <div className="col-xl-4 col-lg-4 col-sm-12" key={ind}>
+  //        <div className={`card border-4 card-box ${item.bgcolor}`}>
+  //          <div className="card-header border-0 pb-0">
+  //            <div className="chart-num-days  ">
+  //              {item.percent_change_30d < 0 ? (
+  //                <p className="" style={{ color: "red" }}>
+  //                  <i className="fa fa-arrow-down me-2 "></i>
+  //                  {item.percent_change_30d.toFixed(2)}
+  //                  %(30 Days)
+  //                </p>
+  //              ) : (
+  //                <p style={{ color: "green" }}>
+  //                  <i className="fa fa-arrow-up me-2 "></i>
+  //                  {item.percent_change_30d.toFixed(2)}
+  //                  %(30 Days)
+  //                </p>
+  //              )}
+
+  //              <h2 className="count-num text-black  ">
+  //                <CurrencyFormat
+  //                  style={{ color: "black !important" }}
+  //                  value={item?.price}
+  //                  displayType={"text"}
+  //                  decimalScale={2}
+  //                  thousandSeparator={true}
+  //                  prefix={"$"}
+  //                  fixedDecimalScale={true}
+  //                  renderText={(value) => <p>{value}</p>}
+  //                />
+  //                {item.name}
+  //              </h2>
+  //            </div>
+  //            <span className="badge badge-soft-success font-size-12">
+  //              <img
+  //                loading="lazy"
+  //                src={cryptoicons[item?.symbol]}
+  //                width="50px"
+  //              />
+  //            </span>
+  //          </div>
+  //          <div className="card-body p-0 custome-tooltip">
+  //            {/* <div id="widgetChart3" className="chart-primary"></div> */}
+
+  //            <WidgetChartIndex3
+  //              name={item.symbol}
+  //              price={item.price}
+  //              data={[
+  //                {
+  //                  symbol: item.symbol,
+  //                  price: [
+  //                    item.percent_change_1h,
+  //                    item.percent_change_7d,
+  //                    item.percent_change_30d,
+  //                  ],
+  //                },
+  //              ]}
+  //            />
+  //          </div>
+  //        </div>
+  //      </div>
+  //    ));
+  //  }

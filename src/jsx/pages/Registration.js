@@ -147,20 +147,16 @@ function Register(props) {
       password: user.password,
     };
     const res = await dispatch(userLogin(data));
-     if (res.payload?.token) {
-       axios.defaults.headers[
-         "Authorization"
-       ] = `Bearer ${res?.payload?.token?.accessToken}`;
-       axiosInstance.defaults.headers[
-         "Authorization"
-       ] = `Bearer ${res?.payload?.token?.accessToken}`;
-       const token = res?.payload?.token?.accessToken;
-       cookies.set("token", token);
-       dispatch(setCurrentUser(res?.payload?.user));
-       if (user?.role === "admin") {
-         navigate("/admin-dashboard");
-       } 
-     }
+    if (res.payload?.token) {
+      const token = res?.payload?.token?.accessToken;
+      cookies.set("userId", res?.payload?.user?._id);
+      cookies.set("token", token);
+      if (user?.role === "admin") {
+        navigate("/admin-dashboard");
+      } else {
+        navigate("/dashboard");
+      }
+    }
   }
   return (
     <>

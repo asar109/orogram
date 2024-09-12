@@ -105,65 +105,65 @@ function MainLayout() {
       user_id: id,
     };
     // dispatch(getAllCoin());
-    Promise.all([dispatch(getAllCoin()), dispatch(getAllTrade(body))]).then(
-      ([coinDataAction, tradeDataAction]) => {
-        const coinData = coinDataAction.payload;
+    // Promise.all([dispatch(getAllCoin()), dispatch(getAllTrade(body))]).then(
+    //   ([coinDataAction, tradeDataAction]) => {
+    //     const coinData = coinDataAction.payload;
 
-        const tradeData = tradeDataAction.payload.filter(
-          (trade) => trade.user_id === id
-        );
+    //     const tradeData = tradeDataAction.payload.filter(
+    //       (trade) => trade.user_id === id
+    //     );
 
-        const result = tradeData.reduce(
-          (acc, cur) => {
-            let previousPrice = coinData.find(
-              (item) => item.symbol === cur.crypto_symbol
-            );
-            console.log(previousPrice, "previousPrice from reducer");
+    //     const result = tradeData.reduce(
+    //       (acc, cur) => {
+    //         let previousPrice = coinData.find(
+    //           (item) => item.symbol === cur.crypto_symbol
+    //         );
+    //         console.log(previousPrice, "previousPrice from reducer");
 
-            if (!acc.totalInvestment) {
-              acc.totalInvestment = cur.trade; // set initial investment
-            } else {
-              acc.totalInvestment += cur.trade; // add to existing investment
-            }
+    //         if (!acc.totalInvestment) {
+    //           acc.totalInvestment = cur.trade; // set initial investment
+    //         } else {
+    //           acc.totalInvestment += cur.trade; // add to existing investment
+    //         }
 
-            acc.totalProfitLoss +=
-              (previousPrice?.price - cur.crypto_purchase_price) *
-              cur.purchase_units;
+    //         acc.totalProfitLoss +=
+    //           (previousPrice?.price - cur.crypto_purchase_price) *
+    //           cur.purchase_units;
 
-            const fee = cur.investment * (coinReducer.commissionFee / 100);
+    //         const fee = cur.investment * (coinReducer.commissionFee / 100);
 
-            // acc.totalProfitLoss -= fee;
+    //         // acc.totalProfitLoss -= fee;
 
-            return acc;
-          },
-          { totalInvestment: 0, totalProfitLoss: 0 }
-        );
+    //         return acc;
+    //       },
+    //       { totalInvestment: 0, totalProfitLoss: 0 }
+    //     );
 
-        dispatch(settotalInvestment(result.totalInvestment));
-        dispatch(settotalProfitLoss(result.totalProfitLoss));
-        console.log(result, "total investment and profit/loss for user");
-      }
-    );
+    //     dispatch(settotalInvestment(result.totalInvestment));
+    //     dispatch(settotalProfitLoss(result.totalProfitLoss));
+    //     console.log(result, "total investment and profit/loss for user");
+    //   }
+    // );
   };
 
 
-  useEffect(() => {
-    const interval = setInterval(() => {
-      loadData();
-    }, 50000);
-    return () => clearInterval(interval);
-  }, []);
-  useEffect(() => {
-    if (coinReducer?.tradeClose === false) {
-      loadData();
-    }
-  }, [coinReducer?.tradeClose]);
+  // useEffect(() => {
+  //   const interval = setInterval(() => {
+  //     loadData();
+  //   }, 50000);
+  //   return () => clearInterval(interval);
+  // }, []);
+  // useEffect(() => {
+  //   if (coinReducer?.tradeClose === false) {
+  //     loadData();
+  //   }
+  // }, [coinReducer?.tradeClose]);
 
-  useEffect(() => {
-    loadData();
-    dispatch(getAdminSettings());
-    dispatch(getCommissionFee());
-  }, []);
+  // useEffect(() => {
+  //   loadData();
+  //   dispatch(getAdminSettings());
+  //   dispatch(getCommissionFee());
+  // }, []);
   return (
     <Suspense fallback={<Loader></Loader>}>
     <div
