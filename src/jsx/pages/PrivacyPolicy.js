@@ -11,16 +11,16 @@ function PrivacyPolicy(props) {
               <div className="col-md-12">
                 <div className="terms">
                   <h1 style={{ display: "flex", justifyContent: "center" }}>
-                    Privacy Policy for Prime Crypto Exchange:
+                    Privacy Policy for Orogram:
                   </h1>
                   <p>
-                    Prime Crypto Exchange (hereinafter referred to as "we,"
+                    Orogram (hereinafter referred to as "we,"
                     "us," or "our") is committed to protecting the privacy of
                     our users (hereinafter referred to as "you" or "the user").
                     This privacy policy (hereinafter referred to as the
                     "Policy") explains how we collect, use, and disclose your
                     personal information in connection with your use of the
-                    Prime Crypto Exchange platform (hereinafter referred to as
+                    Orogram platform (hereinafter referred to as
                     "the platform").
                   </p>
                   <h3>1. Information We Collect:</h3>

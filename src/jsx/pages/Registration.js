@@ -159,9 +159,7 @@ function Register(props) {
        dispatch(setCurrentUser(res?.payload?.user));
        if (user?.role === "admin") {
          navigate("/admin-dashboard");
-       } else {
-         navigate("/dashboard");
-       }
+       } 
      }
   }
   return (
@@ -449,7 +447,7 @@ function Register(props) {
                       Account Created Successfully!
                       <br />
                     </b>
-                    Welcome To Prime Crypto Exchange
+                    Welcome To Orogram
                   </p>
                 </div>
               </div>

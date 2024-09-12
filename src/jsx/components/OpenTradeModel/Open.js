@@ -315,7 +315,7 @@ const Open = (props) => {
                               className="mb-0"
                               style={{ color: "black", fontWeight: "300" }}
                             >
-                              Price by Prime Crypto Exchange
+                              Price by Orogram
                             </span>
                           </Row>
                         </Col>
