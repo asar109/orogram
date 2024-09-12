@@ -1,4 +1,4 @@
-import React, { useContext, useEffect,lazy, Suspense } from "react";
+import React, { useContext, useEffect, lazy, Suspense } from "react";
 /// React router dom
 import { Outlet, Route, Routes } from "react-router-dom";
 
@@ -11,34 +11,34 @@ import "../css/style.css";
 import jwt_decode from "jwt-decode";
 import { useDispatch, useSelector } from "react-redux";
 import Cookies from "universal-cookie";
-import {
-  getAllCoin,
-  getAllTrade,
-  getCommissionFee
-} from "../Redux/coins";
+import { getAllCoin, getAllTrade, getCommissionFee } from "../Redux/coins";
 import {
   getAdminSettings,
   settotalInvestment,
   settotalProfitLoss,
 } from "../Redux/user";
-import  {ThemeContext} from "../context/ThemeContext";
+import { ThemeContext } from "../context/ThemeContext";
 import Loader from "./components/Loader/Loader";
+import ChatBotContainer from "./components/ChatBot/ChatBotContainer";
 const Nav = lazy(() => import("./layouts/nav"));
 const ScrollToTop = lazy(() => import("./layouts/ScrollToTop"));
 const Home = lazy(() => import("./components/Dashboard/Home"));
-const  AppProfile = lazy(() => import("./components/AppsMenu/AppProfile/AppProfile"));
+const AppProfile = lazy(() =>
+  import("./components/AppsMenu/AppProfile/AppProfile")
+);
 const Deposit = lazy(() => import("./components/Pages/Deposit"));
 const Withdrawal = lazy(() => import("./components/Pages/Withdrawal"));
 const WatchList = lazy(() => import("./components/Pages/WatchList"));
 const Portfolio = lazy(() => import("./components/Pages/Portfolio"));
 const TradeHistory = lazy(() => import("./components/Pages/TradeHistory"));
-const TransactionHistory = lazy(() => import("./components/Pages/TransactionHistory"));
+const TransactionHistory = lazy(() =>
+  import("./components/Pages/TransactionHistory")
+);
 const Trade = lazy(() => import("./components/Pages/Trade"));
 const Login = lazy(() => import("./pages/Login"));
 const ForgotPassword = lazy(() => import("./pages/ForgotPassword"));
 const PrivacyPolicy = lazy(() => import("./pages/PrivacyPolicy"));
 const Error403 = lazy(() => import("./pages/Error403"));
-
 
 const Markup = () => {
   const allroutes = [
@@ -53,6 +53,7 @@ const Markup = () => {
     { url: "/transaction-history", component: <TransactionHistory /> },
     { url: "/login", component: <Login /> },
     { url: "dashboard", component: <Home /> },
+    { url: "orogram-ai-agent", component: <ChatBotContainer /> },
     { url: "app-profile", component: <AppProfile /> },
     { url: "page-forgot-password", component: <ForgotPassword /> },
     { url: "privacy-policy", component: <PrivacyPolicy /> },
@@ -73,7 +74,6 @@ const Markup = () => {
       )} */}
 
       <Routes>
-       
         <Route element={<MainLayout />}>
           {allroutes.map((data, i) => (
             <Route
@@ -146,7 +146,6 @@ function MainLayout() {
     // );
   };
 
-
   // useEffect(() => {
   //   const interval = setInterval(() => {
   //     loadData();
@@ -166,28 +165,27 @@ function MainLayout() {
   // }, []);
   return (
     <Suspense fallback={<Loader></Loader>}>
-    <div
-      id="main-wrapper"
-      className={`show ${menuToggle ? "menu-toggle" : ""}`}
-    >
-      
-      <Nav />
       <div
-        className="content-body"
-        style={{
-          minHeight: window.screen.height - 45,
-          backgroundColor: "whitesmoke",
-        }}
+        id="main-wrapper"
+        className={`show ${menuToggle ? "menu-toggle" : ""}`}
       >
+        <Nav />
         <div
-          className="container-fluid"
-          style={{ backgroundColor: "whitesmoke" }}
+          className="content-body"
+          style={{
+            minHeight: window.screen.height - 45,
+            backgroundColor: "whitesmoke",
+          }}
         >
-          <Outlet />
+          <div
+            className="container-fluid"
+            style={{ backgroundColor: "whitesmoke" }}
+          >
+            <Outlet />
+          </div>
         </div>
+        {/* <Footer /> */}
       </div>
-      {/* <Footer /> */}
-    </div>
     </Suspense>
   );
 }

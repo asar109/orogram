@@ -33,7 +33,9 @@ const NavHader = (props) => {
         className="brand-logo"
       >
         {/* <img  loading="lazy" src={logoPrime}  className="logo-abbr" alt=""/> */}
-        <img loading="lazy" src={logoPrime} className="brand-title" alt="" />
+        <img loading="lazy" style={{
+          width: "100px",
+        }}  src={logoPrime} className="brand-title" alt="" />
         {/* <img  loading="lazy" src={logoPrime} className="logo-color" alt="" /> */}
         {/* <img  loading="lazy" src={logoColorText} className="brand-title color-title" alt="" /> */}
       </Link>

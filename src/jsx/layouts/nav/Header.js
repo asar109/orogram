@@ -50,6 +50,7 @@ const Header = ({ onNote }) => {
   const [takeProfit, setTakeProfit] = useState(0);
   const [modalCurrentData, setModalCurrentData] = useState();
   const [inputValue, setInputValue] = useState();
+  const [agentTitle , setAgentTitle] = useState("")
   const [inputId, setInputId] = useState("price");
 
   const [rightSelect, setRightSelect] = useState("Eng");
@@ -58,6 +59,15 @@ const Header = ({ onNote }) => {
   useEffect(() => {
     setCoinMarketData(coinReducer.coinData);
   }, [coinReducer.coinData]);
+
+
+  useEffect(() => {
+    if (window.location.pathname === "/orogram-ai-agent") {
+     setAgentTitle( "Orogram AI Agent")
+     
+    }
+    
+  },[])
 
   // useEffect(() => {
   //   window.addEventListener("scroll", () => {
@@ -199,11 +209,15 @@ const Header = ({ onNote }) => {
                 className="dashboard_bar"
                 style={{ textTransform: "capitalize", color: "black" }}
               >
-                {finalName.join(" ").length === 0
+                {agentTitle === "Orogram AI Agent" ? agentTitle :  finalName.join(" ").length === 0
                   ? "Dashboard"
                   : finalName.join(" ") === "dashboard dark"
                   ? "Dashboard"
-                  : finalName.join(" ")}
+                    : finalName.join(" ")}
+                
+                {/* {
+                  agentTitle ? agentTitle : null
+                } */}
               </div>
             </div>
 
