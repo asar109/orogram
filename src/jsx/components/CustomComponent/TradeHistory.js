@@ -9,7 +9,7 @@ import Cookies from "universal-cookie";
 
 import {
   getAllDepositsByUserId,
-  getAllWithdrawalsByUserId
+  getAllWithdrawalsByUserId,
 } from "../../../Redux/user";
 import TabelComponent from "../../layouts/TabelComponent";
 
@@ -100,7 +100,9 @@ const DataTable = ({ header, description, rows, columns, trade = false }) => {
     if (!item) return;
     dayjs.extend(utc);
     dayjs.extend(timezone);
-    return dayjs(item).tz(Intl.DateTimeFormat().resolvedOptions().timeZone).format("DD MMM YYYY HH:mm");
+    return dayjs(item)
+      .tz(Intl.DateTimeFormat().resolvedOptions().timeZone)
+      .format("DD MMM YYYY HH:mm");
   };
 
   const renderTabel = () => {
@@ -119,7 +121,7 @@ const DataTable = ({ header, description, rows, columns, trade = false }) => {
           return <span style={{ color: "black" }}>{rowData.walletType}</span>;
         },
       },
-     
+
       {
         title: "Status",
         render: (rowData) => {
@@ -140,8 +142,12 @@ const DataTable = ({ header, description, rows, columns, trade = false }) => {
         title: "Date",
         sortId: "requested_at",
         render: (rowData) => {
-          return <span style={{ color: "black" }}>{formattedDate(rowData.requested_at)}</span>;
-        }
+          return (
+            <span style={{ color: "black" }}>
+              {formattedDate(rowData.requested_at)}
+            </span>
+          );
+        },
       },
 
       {
@@ -152,9 +158,9 @@ const DataTable = ({ header, description, rows, columns, trade = false }) => {
             <span style={{ color: "black" }}>
               $
               {rowData.amount?.toLocaleString("en-US", {
-                  minimumFractionDigits: 2,
-                  maximumFractionDigits: 2,
-                }) || 0}
+                minimumFractionDigits: 2,
+                maximumFractionDigits: 2,
+              }) || 0}
             </span>
           );
         },
@@ -165,7 +171,8 @@ const DataTable = ({ header, description, rows, columns, trade = false }) => {
         render: (rowData) => {
           return <span style={{ color: "black" }}>{rowData.from}</span>;
         },
-      }, {
+      },
+      {
         title: "To",
         sortId: "to",
         render: (rowData) => {
@@ -179,7 +186,6 @@ const DataTable = ({ header, description, rows, columns, trade = false }) => {
           return <span style={{ color: "black" }}>{rowData.tx_hash}</span>;
         },
       },
-
     ];
   };
   return (

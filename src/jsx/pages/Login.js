@@ -88,7 +88,7 @@ function Login(props) {
       cookies.set("userId", res?.payload?.user?._id);
       cookies.set("token", token);
       // dispatch(setCurrentUser(res?.payload?.user));
-      if (user?.role === "admin") {
+      if (res?.payload?.user?.role === "admin") {
         navigate("/admin-dashboard");
       } else {
         navigate("/dashboard");

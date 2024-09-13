@@ -53,16 +53,16 @@ const DataTable = ({ header, description, rows, columns, trade = false }) => {
   //     //chackboxFun();
   // }, [test]);
 
-  useEffect(() => {
-    dispatch(getAllWithdrawalsByUserId(id));
-  }, []);
+  // useEffect(() => {
+  //   dispatch(getAllWithdrawalsByUserId(id));
+  // }, []);
   const requests = useSelector((state) => state.userReducer);
   // Active pagginarion
   activePag.current === 0 && chageData(0, sort);
   // paggination
-  let paggination = Array(Math.ceil(data.length / sort))
-    .fill()
-    .map((_, i) => i + 1);
+  // let paggination = Array(Math.ceil(data.length / sort))
+  //   .fill()
+  //   .map((_, i) => i + 1);
 
   // Active paggination & chage data
   const onClick = (i) => {

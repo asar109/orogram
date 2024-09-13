@@ -275,24 +275,50 @@ const SideBar = (props) => {
                 //   key={index}
                 // >
                 <li
-                  className={` ${state.active === data.title ? "mm-active" : ""
-                    }`}
+                  className={` ${
+                    state.active === data.title ? "mm-active" : ""
+                  }`}
                   onClick={() => {
                     handleMenuActive(data.title);
                   }}
                   key={index}
                 >
-                  {data.newTab ?
-                    <NavLink to={data.to}
-                      target="_blank"
-                    >
+                  {data.newTab ? (
+                    <NavLink to={data.to} target="_blank">
                       {data.iconStyle}
                       <span className="nav-text">{data.title}</span>
-                    </NavLink> :
+                    </NavLink>
+                  ) : (
                     <NavLink to={data.to}>
                       {data.iconStyle}
                       <span className="nav-text">{data.title}</span>
-                    </NavLink>}
+                    </NavLink>
+                  )}
+
+                  {data.children && state.active === data.title && (
+                    <ul className="mm-submenu">
+                      {data.children.map((child, childIndex) => (
+                        <li
+                          className={`${
+                            state.activeSubmenu === child.title
+                              ? "mm-active"
+                              : ""
+                          }`}
+                          key={childIndex}
+                          onClick={() => handleSubmenuActive(child.title)}
+                        >
+                          <NavLink to={child.to}>
+                            {child.iconStyle}
+                            <span className="" style={{
+                              color: "#333",
+                              backgroundColor: "#fff",
+                              paddingLeft : '4px'
+                            }} >{child.title}</span>
+                          </NavLink>
+                        </li>
+                      ))}
+                    </ul>
+                  )}
 
                   {/* {data.content && data.content.length > 0 ?
                             <Link to={"#"} 

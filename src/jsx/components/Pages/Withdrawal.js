@@ -4,7 +4,7 @@ import WithdrawalOrderForm from "../CustomComponent/WithdrawalOrderForm";
 const Withdrawal = () => {
   return (
     <Col>
-      <PageTitle activeMenu="Withdraw" motherMenu="Dashboard" link="dashboard" />
+      <PageTitle activeMenu="Send" motherMenu="Dashboard" link="dashboard" />
       <Row>
         <Col xs={3}></Col>
         <Col xs={12} lg={6}>

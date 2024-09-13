@@ -111,7 +111,7 @@ const DataTable = ({ header, description, rows, columns, trade = false }) => {
   };
 
   useEffect(() => {
-    dispatch(getTradeHistory(body));
+    // dispatch(getTradeHistory(body));
     // const interval = setInterval(() => {
     //   const res = dispatch(getTradeHistory(body));
     // }, 5000);

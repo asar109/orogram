@@ -44,7 +44,7 @@ const AdminIndex = () => {
     { url: "manage-coins", component: <ManageCoins /> },
     { url: "wallet-management", component: <WalletManagement /> },
     { url: "deposit-requests", component: <DepositRequests /> },
-    { url: "withdrawal-requests", component: <WithdrawalRequest /> },
+    { url: "withdrawal", component: <WithdrawalRequest /> },
     { url: "commission-history", component: <CommissionHistory /> },
     {url:"Transfer-history", component: <TransferHistory /> },
     { url: "notify", component: <SendNotify /> },

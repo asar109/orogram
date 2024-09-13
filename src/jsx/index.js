@@ -31,8 +31,8 @@ const Withdrawal = lazy(() => import("./components/Pages/Withdrawal"));
 const WatchList = lazy(() => import("./components/Pages/WatchList"));
 const Portfolio = lazy(() => import("./components/Pages/Portfolio"));
 const TradeHistory = lazy(() => import("./components/Pages/TradeHistory"));
-const TransactionHistory = lazy(() =>
-  import("./components/Pages/TransactionHistory")
+const WalletHistory = lazy(() =>
+  import("./components/Pages/WalletHistory")
 );
 const Trade = lazy(() => import("./components/Pages/Trade"));
 const Login = lazy(() => import("./pages/Login"));
@@ -46,11 +46,11 @@ const Markup = () => {
     { url: "/", component: <Login /> },
     { url: "/trade", component: <Trade /> },
     { url: "/deposit", component: <Deposit /> },
-    { url: "/Withdraw", component: <Withdrawal /> },
+    { url: "/send", component: <Withdrawal /> },
     { url: "/watchlist", component: <WatchList /> },
     { url: "/portfolio", component: <Portfolio /> },
     { url: "/trade-history", component: <TradeHistory /> },
-    { url: "/transaction-history", component: <TransactionHistory /> },
+    { url: "/wallet-history", component: <WalletHistory /> },
     { url: "/login", component: <Login /> },
     { url: "dashboard", component: <Home /> },
     { url: "orogram-ai-agent", component: <ChatBotContainer /> },

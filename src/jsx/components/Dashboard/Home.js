@@ -16,14 +16,14 @@ import CurrencyFormat from "react-currency-format";
 import { ToastContainer, toast } from "react-toastify";
 import cryptoicons from "../../../images/cryptoIcons/cryptoImg";
 import { CoinCharts } from "./CoinCharts";
+import {getWelcomeMessage} from '../../../utils/welcomeMessage'
 const Home = () => {
   const dispatch = useDispatch();
-  // const requestCoin = useSelector((store) => store.coinReducer);
+  const currentUser = useSelector((store) => store.userReducer.currentUser);
+  console.log("🚀 ~ Home ~ currentUser:", currentUser)
   const cookies = new Cookies();
   const token = cookies.get("token");
-  const user = jwt_decode(token);
-  console.log("🚀 ~ Home ~ user:", user)
-  const id = user.id;
+
   // const requests = useSelector((state) => state.userReducer);
   // const [topcoins, setTopCoins] = useState(requestCoin?.coinData);
 
@@ -98,7 +98,6 @@ const Home = () => {
     <>
       <div className="row">
         <div className="col-xl-12">
-
           <div className="row">
             <div className="col-xl-12">
               <Card>
@@ -107,22 +106,19 @@ const Home = () => {
                     <div style={{ width: "100%" }}>
                       <h2>Welcome Back!</h2>
                       <h2>
-                        <p style={{ textTransform: "capitalize" }}>{"Name"}</p>
+                        <p style={{ textTransform: "capitalize" }}>{`${
+                          currentUser.firstName + " " + currentUser.lastName
+                        } , ${getWelcomeMessage()}`}</p>
                       </h2>
 
                       <h4>
                         <p>Portfolio Value</p>
                       </h4>
 
-                      
-
-
                       <h2 className="fs-7">
                         <CurrencyFormat
                           style={{ color: "black !important" }}
-                          value={
-                            40
-                          }
+                          value={40}
                           displayType={"text"}
                           decimalScale={2}
                           thousandSeparator={true}
@@ -154,7 +150,9 @@ const Home = () => {
                                 renderText={(value) => <p>{value}</p>}
                               />
                             </h4>
-                            <p className="Avblprice">Available Balance</p>
+                            <p className="Avblprice">
+                              Total No. Of Orogram Coins
+                            </p>
                           </Card.Text>
                         </Card.Body>
                       </Card>
@@ -178,7 +176,7 @@ const Home = () => {
                                 renderText={(value) => <p>{value}</p>}
                               />
                             </h4>
-                            <p className="Avblprice">Invested</p>
+                            <p className="Avblprice">Admin Holded coins</p>
                           </Card.Text>
                         </Card.Body>
                       </Card>
@@ -190,15 +188,13 @@ const Home = () => {
                             <h4
                               className="pricecard"
                               style={{
-                                color: "#ddd",
+                                color: "#444",
                                 fontSize: "25px",
                               }}
                             >
                               <CurrencyFormat
                                 style={{ color: "black !important" }}
-                                value={
-                                  40
-                                }
+                                value={40}
                                 displayType={"text"}
                                 decimalScale={2}
                                 thousandSeparator={true}
@@ -207,9 +203,7 @@ const Home = () => {
                                 renderText={(value) => <p>{value}</p>}
                               />
                             </h4>
-                            <p className="Avblprice">
-                              Profit & Loss on Active Trades
-                            </p>
+                            <p className="Avblprice">Remaining Coins</p>
                           </Card.Text>
                         </Card.Body>
                       </Card>
@@ -219,9 +213,7 @@ const Home = () => {
               </Card>
             </div>
           </div>
-          <div className="row">
-         
-          </div>
+          <div className="row"></div>
           {/* <Row>
             <Col xl="8">
               <DataTable
