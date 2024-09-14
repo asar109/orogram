@@ -118,6 +118,13 @@ export const MenuList = [
     newTab: false,
   },
   {
+    title: "Map",
+    classsChange: "mm-collapse",
+    iconStyle: <i className="material-icons">map</i>,
+    to: "trade",
+    newTab: false,
+  },
+  {
     title: "Wallet History",
     classsChange: "mm-collapse",
     iconStyle: <i className="material-icons">credit_card</i>,

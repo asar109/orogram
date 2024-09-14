@@ -9,7 +9,6 @@ function logout() {
   window.location.href = "/login";
 }
 const env =process.env.NODE_ENV === 'development' ? process.env.REACT_APP_DEV_MODE : process.env.REACT_APP_PRO_MODE;
-console.log(process.env.REACT_APP_DEV_MODE,"env")
 const axiosInstance = axios.create({
    baseURL: env,
   "Access-Control-Allow-Origin": "*",

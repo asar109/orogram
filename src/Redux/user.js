@@ -174,7 +174,6 @@ export const userLogin = createAsyncThunk("userLogin", async (formData) => {
     if (res.status === 200) {
       successMessage("User Logged in Successfully");
       return res.data;
-      // return res.data.user;
     } else {
       errorMessage("Something Went Wrong");
     }

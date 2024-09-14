@@ -20,7 +20,6 @@ import {getWelcomeMessage} from '../../../utils/welcomeMessage'
 const Home = () => {
   const dispatch = useDispatch();
   const currentUser = useSelector((store) => store.userReducer.currentUser);
-  console.log("🚀 ~ Home ~ currentUser:", currentUser)
   const cookies = new Cookies();
   const token = cookies.get("token");
 

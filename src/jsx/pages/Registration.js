@@ -3,13 +3,9 @@ import { Modal } from "react-bootstrap";
 import { FaUserCheck } from "react-icons/fa";
 import { useDispatch } from "react-redux";
 import { Link, NavLink, useNavigate } from "react-router-dom";
-import { setCurrentUser, userLogin, verifyEmail } from "../../Redux/user";
-import countryList from "react-select-country-list";
 import Select from "react-select";
-import axios from "axios";
-import axiosInstance from "../../services/AxiosInstance";
 import Cookies from "universal-cookie";
-import jwt_decode from "jwt-decode";
+import { setCurrentUser, userLogin } from "../../Redux/user";
 // image
 import { ToastContainer } from "react-toastify";
 
@@ -18,6 +14,10 @@ import { userSignUp } from "../../Redux/user";
 import logoPrime from "../../images/logo/logo-prime.png";
 import sideImage from "../../images/sideimage.jpg";
 import { countryOptions } from "../../utils/countryOptions";
+import {
+  extractCodeAndCountryNameFromLabel,
+  formateMobileNumber,
+} from "../../utils/functions";
 const ImagePopup = lazy(() => import("../components/Popup/ImagePopup"));
 
 function Register(props) {
@@ -28,7 +28,7 @@ function Register(props) {
   const [checkEmail, setCheckEmail] = useState(false);
   const [showModal, setShowModal] = useState(false);
   const [countryName, setCountryName] = useState("");
-  console.log("🚀 ~ Register ~ countryName:", countryName);
+
   const [user, setUser] = useState({
     firstName: "",
     lastName: "",
@@ -50,7 +50,7 @@ function Register(props) {
   };
 
   const handleCountryChange = (selectedOption) => {
-    setUser({ ...user, code: selectedOption.value });
+    setUser({ ...user, code: selectedOption });
     setCountryName(selectedOption);
   };
 
@@ -119,10 +119,13 @@ function Register(props) {
     setErrors(errorObj);
     if (error) return;
 
+    let { countryCode, countryName: CName } =
+      extractCodeAndCountryNameFromLabel(countryName.label);
+
     let data = {
       email: user.email,
       password: user.password,
-      mobile: `${user.code} ${user.mobile}`,
+      mobile: `${CName} (${countryCode}) ${user.mobile}`,
       firstName: user.firstName,
       lastName: user.lastName,
       platform: "cryptoTrade",
@@ -151,6 +154,7 @@ function Register(props) {
       const token = res?.payload?.token?.accessToken;
       cookies.set("userId", res?.payload?.user?._id);
       cookies.set("token", token);
+      dispatch(setCurrentUser(res?.payload?.user));
       if (user?.role === "admin") {
         navigate("/admin-dashboard");
       } else {

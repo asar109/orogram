@@ -5,7 +5,7 @@ import { useDispatch, useSelector } from "react-redux";
 import { Link, NavLink, useNavigate, useSearchParams } from "react-router-dom";
 import Cookies from "universal-cookie";
 import logoPrime from "../../images/logo/logo-prime.png";
-import { userLogin } from "../../Redux/user";
+import { setCurrentUser, userLogin } from "../../Redux/user";
 
 function Login(props) {
   const cookies = new Cookies();
@@ -47,13 +47,12 @@ function Login(props) {
       remember,
     };
     const res = await dispatch(userLogin(data));
-    console.log("🚀 ~ onLogin ~ res:", res);
 
     if (res.payload?.token) {
       const token = res?.payload?.token?.accessToken;
       cookies.set("userId", res?.payload?.user?._id);
       cookies.set("token", token);
-      // dispatch(setCurrentUser(res?.payload?.user));
+      dispatch(setCurrentUser(res?.payload?.user));
       if (res?.payload?.user?.role === "admin") {
         navigate("/admin-dashboard");
       } else {
@@ -87,7 +86,7 @@ function Login(props) {
       const token = res?.payload?.token?.accessToken;
       cookies.set("userId", res?.payload?.user?._id);
       cookies.set("token", token);
-      // dispatch(setCurrentUser(res?.payload?.user));
+      dispatch(setCurrentUser(res?.payload?.user));
       if (res?.payload?.user?.role === "admin") {
         navigate("/admin-dashboard");
       } else {

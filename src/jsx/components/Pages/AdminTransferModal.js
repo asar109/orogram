@@ -11,7 +11,6 @@ import QRCode from "react-qr-code";
 import { ToastContainer, toast } from "react-toastify";
 
 const AdminTransferModal = ({ show, handleClose, id }) => {
-  console.log(id, "iddd");
   const { getUseWalletAddress: walletAddresses } = useSelector(
     (store) => store.userReducer
   );
