@@ -3,10 +3,13 @@ import axiosInstance from "../services/AxiosInstance";
 import axios from "axios";
 import { successMessage, errorMessage } from "../utils/message";
 import Cookies from "universal-cookie";
+import { serverUrl } from "../utils/functions";
 const cookies = new Cookies();
+
 const initialState = {
   currentUser: null,
   getUserRewards: [],
+  getUserCoins: 0,
   getAllUserDeposits: [],
   getUseWalletAddress: [],
   getAllUserWithdrawals: [],
@@ -24,14 +27,16 @@ const initialState = {
   totalInvestment: 0,
   totalProfitLoss: 0,
   adminSettings: [],
-  transactionHistory:[]
+  transactionHistory: [],
 };
 
 export const getUserTransactionHistory = createAsyncThunk(
   "getUserTransactionHistory",
   async () => {
     try {
-      const res = await axiosInstance.get(`/api/deposit/wallets/tansaction/history`);
+      const res = await axiosInstance.get(
+        `/api/deposit/wallets/tansaction/history`
+      );
       if (res.status === 200) {
         return res.data?.transaction;
       }
@@ -65,10 +70,13 @@ export const switchAccount = createAsyncThunk(
       ? cookies.get("token")
       : cookies.get("previoustoken");
     try {
-      const env = process.env.NODE_ENV === 'development' ? process.env.REACT_APP_DEV_MODE : process.env.REACT_APP_PRO_MODE;
+      const env =
+        process.env.NODE_ENV === "development"
+          ? process.env.REACT_APP_DEV_MODE
+          : process.env.REACT_APP_PRO_MODE;
 
       const res = await axios.post(
-        env+"api/user/accesstoadmin",
+        env + "api/user/accesstoadmin",
         {
           email: data.email,
         },
@@ -198,6 +206,28 @@ export const getUserWallet = createAsyncThunk(
     // }
   }
 );
+// Get all coins
+export const getUserCoins = createAsyncThunk(
+  "getUserCoins",
+  async (token, address) => {
+    try {
+      const res = await axios.get(
+        `${serverUrl}/transactions/getAccountCoinDetail/${address}`,
+        {
+          headers: {
+            Authorization: `Bearer ${token}`,
+            "Content-Type": "application/json",
+          },
+        }
+      );
+      if (res.status === 200) {
+        return res.data;
+      }
+    } catch (err) {
+      console.log(err);
+    }
+  }
+);
 
 // get all user deposits
 export const getAllDepositsByUserId = createAsyncThunk(
@@ -304,19 +334,24 @@ export const removeFromAdminWatchlist = createAsyncThunk(
   }
 );
 
-export const getNotifcation = createAsyncThunk("getNotifcation", async (isAdmin) => {
-  try {
-    let url = isAdmin ? `/api/admin/notification/admin` : `/api/admin/notification/`;
-    const res = await axiosInstance.get(url);
-    if (res.status === 200) {
-      //successMessage("successfully get all notifications by user id");
-      return res.data;
+export const getNotifcation = createAsyncThunk(
+  "getNotifcation",
+  async (isAdmin) => {
+    try {
+      let url = isAdmin
+        ? `/api/admin/notification/admin`
+        : `/api/admin/notification/`;
+      const res = await axiosInstance.get(url);
+      if (res.status === 200) {
+        //successMessage("successfully get all notifications by user id");
+        return res.data;
+      }
+    } catch (err) {
+      errorMessage(err.response.data || err.message);
+      console.log(err);
     }
-  } catch (err) {
-    errorMessage(err.response.data || err.message);
-    console.log(err);
   }
-});
+);
 
 // get api cal in user managemnet page
 export const usermanagment = createAsyncThunk("usermanagment", async () => {
@@ -349,7 +384,7 @@ export const walletTranfer = createAsyncThunk(
     try {
       const res = await axiosInstance.post(
         `/api/deposit/wallet/transfer/${walletType}`,
-        { user_id, passcode, amount, accountFrom:recipientAddress }
+        { user_id, passcode, amount, accountFrom: recipientAddress }
       );
       console.log(res.data);
       if (res.status === 200) {
@@ -507,6 +542,20 @@ export const userReducer = createSlice({
     },
     [userLogin.rejected]: (state, action) => {
       state.isloading = false;
+    },
+
+    // Get User coins
+
+    [getUserCoins.fulfilled]: (state, action) => {
+      state.isloading = false;
+      state.getUserCoins = action.payload.coinValue || 0;
+    },
+    [getUserCoins.pending]: (state, action) => {
+      state.isloading = true;
+    },
+    [getUserCoins.rejected]: (state, action) => {
+      state.isloading = false;
+      console.log("rejected", action);
     },
 
     [getUserWallet.fulfilled]: (state, action) => {

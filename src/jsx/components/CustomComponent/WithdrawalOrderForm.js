@@ -1,9 +1,10 @@
 import { useEffect, useState } from "react";
-import { Button, ButtonGroup, Row, Spinner } from "react-bootstrap";
+import { Button, ButtonGroup, Row, Spinner, Col } from "react-bootstrap";
 import { useDispatch, useSelector } from "react-redux";
 import { Link, useNavigate } from "react-router-dom";
 import { ToastContainer } from "react-toastify";
 import { withdrawAmount } from "../../../Redux/coins";
+import qrCode from '../../../images/qr.png'
 
 const WithdrawalOrderForm = () => {
   const [data, setData] = useState("");
@@ -75,10 +76,11 @@ const WithdrawalOrderForm = () => {
       <form onSubmit={postDeposit} className="border-4">
         <h2
           className=" d-flex justify-content-center"
-          style={{ marginBottom: "1rem", color:"black" }}
+          style={{ marginBottom: "1rem", color: "black" }}
         >
           Withdraw
         </h2>
+
         <Row>
           <ButtonGroup
             style={{
@@ -118,27 +120,46 @@ const WithdrawalOrderForm = () => {
             </Button>
           </ButtonGroup>
         </Row>
-        {withdraw_type === "USDT" && 
-        <p  style={{fontSize:"14px"}}>
-        Enter the USD amount you would like to withdraw from your account. USDT 100 minimum to Crypto Wallet. 
+        <div style={{
+          width: "100%",
+          display: 'flex',
+          justifyContent: "center",
+          alignItems : 'center'
+        }}>
 
-        <Link style={{ color: "#3eacff" }} to="/app-profile"> Update Pay-Out Details</Link>
-      </p>
-        }
-        {withdraw_type === "USD" &&
-        <p style={{fontSize:"14px"}} >
-        Withdrawal to Bank Account,
-         <Link style={{ color: "#3eacff" }} to="https://www.primecryptoexchange.com/faq/withdrawing-fiat-currency/"> Please First Read Here </Link>
-      
-        
-      
-         *Ensure that you have updated pay-out details prior to submitting a withdrawal request.
-       
-          <Link style={{ color: "#3eacff" }} to="/app-profile">{" "}Update Pay-Out Details</Link>
-        </p>
-        }
-        
-       <div className="sell-blance ">
+          <img src={qrCode} width={"200px"} />
+        </div>
+
+        {withdraw_type === "USDT" && (
+          <p style={{ fontSize: "14px" }}>
+            Enter the USD amount you would like to withdraw from your account.
+            USDT 100 minimum to Crypto Wallet.
+            <Link style={{ color: "#3eacff" }} to="/app-profile">
+              {" "}
+              Update Pay-Out Details
+            </Link>
+          </p>
+        )}
+        {withdraw_type === "USD" && (
+          <p style={{ fontSize: "14px" }}>
+            Withdrawal to Bank Account,
+            <Link
+              style={{ color: "#3eacff" }}
+              to="https://www.primecryptoexchange.com/faq/withdrawing-fiat-currency/"
+            >
+              {" "}
+              Please First Read Here{" "}
+            </Link>
+            *Ensure that you have updated pay-out details prior to submitting a
+            withdrawal request.
+            <Link style={{ color: "#3eacff" }} to="/app-profile">
+              {" "}
+              Update Pay-Out Details
+            </Link>
+          </p>
+        )}
+
+        <div className="sell-blance ">
           {errors.data && (
             <div className="text-danger fs-12">{errors.data}</div>
           )}

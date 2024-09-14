@@ -10,45 +10,34 @@ import {
   getUserWallet,
   settotalProfitLoss,
   settotalInvestment,
+  getUserCoins,
 } from "../../../Redux/user";
 import { getAllCoin, getAllTrade } from "../../../Redux/coins";
 import CurrencyFormat from "react-currency-format";
 import { ToastContainer, toast } from "react-toastify";
 import cryptoicons from "../../../images/cryptoIcons/cryptoImg";
 import { CoinCharts } from "./CoinCharts";
-import {getWelcomeMessage} from '../../../utils/welcomeMessage'
+import { getWelcomeMessage } from "../../../utils/welcomeMessage";
 const Home = () => {
   const dispatch = useDispatch();
   const currentUser = useSelector((store) => store.userReducer.currentUser);
+  const userCoins = useSelector((store) => store.userReducer.getUserCoins);
   const cookies = new Cookies();
   const token = cookies.get("token");
 
-  // const requests = useSelector((state) => state.userReducer);
+  const requests = useSelector((state) => state.userReducer);
   // const [topcoins, setTopCoins] = useState(requestCoin?.coinData);
 
-  // useEffect(() => {
-  //   dispatch(getUserWallet(id));
-  //   setTopCoins(requestCoin?.coinData);
-  //   settopcoinsShow(requestCoin?.coinData.slice(0, 3));
-  //   console.log(topcoins, "topcoins");
-  // }, [requestCoin?.coinData, requestCoin?.totalProfitLoss]);
+  useEffect(() => {
+     dispatch(getUserCoins(token , currentUser.account.address));
+    // setTopCoins(requestCoin?.coinData);
+    // settopcoinsShow(requestCoin?.coinData.slice(0, 3));
+    // console.log(topcoins, "topcoins");
+  }, []);
 
   // const [topcoinsShow, settopcoinsShow] = useState(
   //   requestCoin?.coinData.slice(0, 3)
   // );
-
-  const GetColor = (value) => {
-    if (value > 0) {
-      return "green";
-    } else if (value < 0) {
-      return "red";
-    } else {
-      return "black";
-    }
-  };
-  const getTotals = (profitLoss, invest, wallet = 0) => {
-    return invest + wallet + profitLoss;
-  };
 
   // useEffect(() => {
   //   let count = 3;
@@ -110,11 +99,7 @@ const Home = () => {
                         } , ${getWelcomeMessage()}`}</p>
                       </h2>
 
-                      <h4>
-                        <p>Portfolio Value</p>
-                      </h4>
-
-                      <h2 className="fs-7">
+                      {/* <h2 className="fs-7">
                         <CurrencyFormat
                           style={{ color: "black !important" }}
                           value={40}
@@ -125,7 +110,7 @@ const Home = () => {
                           fixedDecimalScale={true}
                           renderText={(value) => <p>{value}</p>}
                         />
-                      </h2>
+                      </h2> */}
                       {/* <Link to={"/exchange"} className="btn text-white" style={{backgroundColor:'#3eacff'}}>Buy Coin</Link> */}
                     </div>
                   </div>
@@ -140,7 +125,7 @@ const Home = () => {
                             >
                               <CurrencyFormat
                                 style={{ color: "black !important" }}
-                                value={40}
+                                value={userCoins}
                                 displayType={"text"}
                                 decimalScale={2}
                                 thousandSeparator={true}
@@ -244,70 +229,67 @@ const Home = () => {
 };
 export default Home;
 
+//  {
+//    topcoinsShow.map((item, ind) => (
+//      <div className="col-xl-4 col-lg-4 col-sm-12" key={ind}>
+//        <div className={`card border-4 card-box ${item.bgcolor}`}>
+//          <div className="card-header border-0 pb-0">
+//            <div className="chart-num-days  ">
+//              {item.percent_change_30d < 0 ? (
+//                <p className="" style={{ color: "red" }}>
+//                  <i className="fa fa-arrow-down me-2 "></i>
+//                  {item.percent_change_30d.toFixed(2)}
+//                  %(30 Days)
+//                </p>
+//              ) : (
+//                <p style={{ color: "green" }}>
+//                  <i className="fa fa-arrow-up me-2 "></i>
+//                  {item.percent_change_30d.toFixed(2)}
+//                  %(30 Days)
+//                </p>
+//              )}
 
+//              <h2 className="count-num text-black  ">
+//                <CurrencyFormat
+//                  style={{ color: "black !important" }}
+//                  value={item?.price}
+//                  displayType={"text"}
+//                  decimalScale={2}
+//                  thousandSeparator={true}
+//                  prefix={"$"}
+//                  fixedDecimalScale={true}
+//                  renderText={(value) => <p>{value}</p>}
+//                />
+//                {item.name}
+//              </h2>
+//            </div>
+//            <span className="badge badge-soft-success font-size-12">
+//              <img
+//                loading="lazy"
+//                src={cryptoicons[item?.symbol]}
+//                width="50px"
+//              />
+//            </span>
+//          </div>
+//          <div className="card-body p-0 custome-tooltip">
+//            {/* <div id="widgetChart3" className="chart-primary"></div> */}
 
-
-  //  {
-  //    topcoinsShow.map((item, ind) => (
-  //      <div className="col-xl-4 col-lg-4 col-sm-12" key={ind}>
-  //        <div className={`card border-4 card-box ${item.bgcolor}`}>
-  //          <div className="card-header border-0 pb-0">
-  //            <div className="chart-num-days  ">
-  //              {item.percent_change_30d < 0 ? (
-  //                <p className="" style={{ color: "red" }}>
-  //                  <i className="fa fa-arrow-down me-2 "></i>
-  //                  {item.percent_change_30d.toFixed(2)}
-  //                  %(30 Days)
-  //                </p>
-  //              ) : (
-  //                <p style={{ color: "green" }}>
-  //                  <i className="fa fa-arrow-up me-2 "></i>
-  //                  {item.percent_change_30d.toFixed(2)}
-  //                  %(30 Days)
-  //                </p>
-  //              )}
-
-  //              <h2 className="count-num text-black  ">
-  //                <CurrencyFormat
-  //                  style={{ color: "black !important" }}
-  //                  value={item?.price}
-  //                  displayType={"text"}
-  //                  decimalScale={2}
-  //                  thousandSeparator={true}
-  //                  prefix={"$"}
-  //                  fixedDecimalScale={true}
-  //                  renderText={(value) => <p>{value}</p>}
-  //                />
-  //                {item.name}
-  //              </h2>
-  //            </div>
-  //            <span className="badge badge-soft-success font-size-12">
-  //              <img
-  //                loading="lazy"
-  //                src={cryptoicons[item?.symbol]}
-  //                width="50px"
-  //              />
-  //            </span>
-  //          </div>
-  //          <div className="card-body p-0 custome-tooltip">
-  //            {/* <div id="widgetChart3" className="chart-primary"></div> */}
-
-  //            <WidgetChartIndex3
-  //              name={item.symbol}
-  //              price={item.price}
-  //              data={[
-  //                {
-  //                  symbol: item.symbol,
-  //                  price: [
-  //                    item.percent_change_1h,
-  //                    item.percent_change_7d,
-  //                    item.percent_change_30d,
-  //                  ],
-  //                },
-  //              ]}
-  //            />
-  //          </div>
-  //        </div>
-  //      </div>
-  //    ));
-  //  }
+//            <WidgetChartIndex3
+//              name={item.symbol}
+//              price={item.price}
+//              data={[
+//                {
+//                  symbol: item.symbol,
+//                  price: [
+//                    item.percent_change_1h,
+//                    item.percent_change_7d,
+//                    item.percent_change_30d,
+//                  ],
+//                },
+//              ]}
+//            />
+//          </div>
+//        </div>
+//      </div>
+//    ));
+//  }
